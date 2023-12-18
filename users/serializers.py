@@ -53,7 +53,7 @@ class UserRegistrationSerializer(serializers.Serializer):
 class UserLoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
-        exclude = ["uid"]
+        fields = ["id", "uid", "username", "email"]
 
 
 """User Profile - Fetch"""
