@@ -1,0 +1,7 @@
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path("", views.user_index, name="user-root"),
+    path("auth/", views.UserAuthentication.as_view(), name="user-authentication"),
+]
