@@ -4,45 +4,44 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('users', '0001_initial'),
+        ("users", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='usermodel',
-            name='about',
+            model_name="usermodel",
+            name="about",
             field=models.CharField(max_length=500, null=True),
         ),
         migrations.AlterField(
-            model_name='usermodel',
-            name='bio',
+            model_name="usermodel",
+            name="bio",
             field=models.CharField(max_length=50, null=True),
         ),
         migrations.AlterField(
-            model_name='usermodel',
-            name='github',
+            model_name="usermodel",
+            name="github",
             field=models.CharField(max_length=50, null=True),
         ),
         migrations.AlterField(
-            model_name='usermodel',
-            name='linkedin',
+            model_name="usermodel",
+            name="linkedin",
             field=models.CharField(max_length=50, null=True),
         ),
         migrations.AlterField(
-            model_name='usermodel',
-            name='resume_1',
+            model_name="usermodel",
+            name="resume_1",
             field=models.CharField(max_length=50, null=True),
         ),
         migrations.AlterField(
-            model_name='usermodel',
-            name='resume_2',
+            model_name="usermodel",
+            name="resume_2",
             field=models.CharField(max_length=50, null=True),
         ),
         migrations.AlterField(
-            model_name='usermodel',
-            name='resume_3',
+            model_name="usermodel",
+            name="resume_3",
             field=models.CharField(max_length=50, null=True),
         ),
     ]
