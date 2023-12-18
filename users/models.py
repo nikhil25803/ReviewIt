@@ -11,9 +11,6 @@ class UserModel(models.Model):
     about = models.CharField(max_length=500, null=True)
     linkedin = models.CharField(max_length=50, null=True)
     github = models.CharField(max_length=50, null=True)
-    resume_1 = models.CharField(max_length=50, null=True)
-    resume_2 = models.CharField(max_length=50, null=True)
-    resume_3 = models.CharField(max_length=50, null=True)
 
     def __str__(self) -> str:
         return f"{self.name}: {self.username}"

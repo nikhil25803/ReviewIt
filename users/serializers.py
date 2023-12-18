@@ -53,5 +53,22 @@ class UserRegistrationSerializer(serializers.Serializer):
 class UserLoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
-        fields = "__all__"
-        # exclude = ["uid"]
+        exclude = ["uid"]
+
+
+"""User Profile - Fetch"""
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserModel
+        exclude = ["uid"]
+
+
+"""User Profile - Update (PATCH Method)"""
+
+
+class UserProfileUpdateSerialzer(serializers.ModelSerializer):
+    class Meta:
+        model = UserModel
+        fields = ["name", "bio", "about", "linkedin", "github"]
