@@ -10,6 +10,7 @@ class UserRegistrationSerializer(serializers.Serializer):
     username = serializers.CharField()
     email = serializers.EmailField()
     name = serializers.CharField()
+    avatar = serializers.CharField()
 
     # Validate incoming data for registration
     def validate(self, data):
@@ -41,6 +42,7 @@ class UserRegistrationSerializer(serializers.Serializer):
             username=data["username"],
             email=data["email"],
             name=data["name"],
+            avatar=data["avatar"],
         )
 
         new_user.save()
@@ -71,4 +73,4 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class UserProfileUpdateSerialzer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
-        fields = ["name", "bio", "about", "linkedin", "github"]
+        fields = ["name", "bio", "about", "linkedin", "github", "avatar"]

@@ -3,100 +3,101 @@ import {
   onAuthStateChanged,
   signInWithPopup,
 } from "firebase/auth";
-import { useEffect } from "react";
-import { useState } from "react";
-import { createContext } from "react";
+import { useEffect, createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../Firebase";
+import { userAuthentication } from "../apis/UserAPI";
 
-// Globally used function
 const logoutFirebase = async () => await auth.signOut();
 
-//  On auth state change
+const clearUserDetails = () => {
+  localStorage.removeItem("auth");
+};
+
 const onAuthStateHasChanged = (setSession) => {
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, async (user) => {
     if (!user) {
-      localStorage.removeItem("userDetails"); // Remove stored user details
-      return setSession({ status: "no-authenticated", userDetails: null });
+      clearUserDetails();
+      return setSession({ status: "not-authenticated", tokenData: null });
     }
 
-    const userDetails = {
-      displayName: user.displayName,
-      email: user.email,
-      photoURL: user.photoURL,
-      uid: user.uid,
-    };
-
-    localStorage.setItem("userDetails", JSON.stringify(userDetails)); // Store user details
-    setSession({ status: "authenticated", userDetails });
+    try {
+      const authDetails = localStorage.getItem("auth");
+      if (authDetails) {
+        setSession({
+          status: "authenticated",
+          tokenData: authDetails,
+        });
+      } else {
+        clearUserDetails();
+        setSession({ status: "not-authenticated", tokenData: null });
+      }
+    } catch (error) {
+      clearUserDetails();
+      setSession({ status: "not-authenticated", tokenData: null });
+    }
   });
 };
 
-// Google Login
 const googleProvider = new GoogleAuthProvider();
 
-// Defining Auth Context
 const AuthContext = createContext();
 
-// Defining Auth Provider
 const AuthProvider = ({ children }) => {
-  const [session, setSession] = useState(null);
-  const [userDetails, setUserDetails] = useState(() => {
-    const storedUserDetails = localStorage.getItem("userDetails");
-    return storedUserDetails ? JSON.parse(storedUserDetails) : undefined;
+  const navigate = useNavigate();
+  const [session, setSession] = useState({
+    status: "checking",
+    tokenData: null,
   });
 
-  const navigate = useNavigate();
-
-  // On auth-state change
   useEffect(() => {
     onAuthStateHasChanged(setSession);
   }, []);
 
-  // Validate Auth
-  useEffect(() => {
-    validateAuth(userDetails);
-  }, [userDetails]);
-
-  // Handle LogOut
   const handleLogOut = async () => {
     logoutFirebase();
+    clearUserDetails();
     setSession({
-      userDetails: null,
       status: "not-authenticated",
+      tokenData: null,
     });
     navigate("/");
   };
 
-  // Validate Auth
-  const validateAuth = (userDetails) => {
-    if (userDetails) {
-      return setSession({
-        userDetails,
-        status: "authenticated",
-      });
-    }
-    handleLogOut();
-  };
-
-  // Checking
-  const checking = () =>
-    setSession((prev) => ({ ...prev, status: "checking" }));
-
-  // Handle Login with Google
   const handleLoginWithGoogle = async () => {
-    checking();
+    setSession({ ...session, status: "checking" });
+
     try {
       const result = await signInWithPopup(auth, googleProvider);
-      console.log(result.user);
-      const displayName = result.user.displayName;
-      const email = result.user.email;
-      const photoUrl = result.user.photoURL;
-      const uid = result.user.uid;
-      setUserDetails({ displayName, email, photoUrl, uid });
-      navigate("/");
+
+      if (result && result.user) {
+        const payload = {
+          name: result.user.displayName,
+          username: result.user.email.split("@")[0],
+          email: result.user.email,
+          avatar: result.user.photoURL,
+          uid: result.user.uid,
+        };
+
+        const userAuthResponse = await userAuthentication(payload);
+
+        if (userAuthResponse && userAuthResponse.token) {
+          localStorage.setItem("auth", userAuthResponse.token);
+          setSession({
+            status: "authenticated",
+            tokenData: userAuthResponse.token,
+          });
+          navigate("/");
+        } else {
+          throw new Error("Unable to obtain JWT token");
+        }
+      } else {
+        throw new Error("Unable to register user");
+      }
     } catch (error) {
       console.log(error.message);
+      clearUserDetails();
+      setSession({ status: "not-authenticated", tokenData: null });
     }
   };
 
@@ -112,4 +113,5 @@ const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
 export { AuthContext, AuthProvider };
