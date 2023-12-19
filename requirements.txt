@@ -1,6 +1,12 @@
 asgiref==3.7.2
+cffi==1.16.0
+cryptography==41.0.7
 Django==5.0
+django-cors-headers==4.3.1
 djangorestframework==3.14.0
+pycparser==2.21
+PyJWT==2.8.0
+python-dotenv==1.0.0
 pytz==2023.3.post1
 sqlparse==0.4.4
 tzdata==2023.3

@@ -17,8 +17,6 @@ from .helpers import encode, decode
 
 @api_view(http_method_names=["GET"])
 def user_index(request):
-    user_object = UserModel.objects.filter(username="nikhil25803").values()[0]
-    print(user_object)
     details = {
         "status": 200,
         "message": "Project ReviewIt",
