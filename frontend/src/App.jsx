@@ -1,18 +1,19 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Homepage from "./pages/Homepage";
+import { AuthProvider } from "./context/AuthContext";
 
 const App = () => {
   return (
     <div>
-      <Router>
+      <AuthProvider>
         <Navbar />
         <Routes>
           <Route path="/" element={<Homepage />} />
         </Routes>
         <Footer />
-      </Router>
+      </AuthProvider>
     </div>
   );
 };

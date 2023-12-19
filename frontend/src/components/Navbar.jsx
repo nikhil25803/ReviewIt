@@ -1,6 +1,10 @@
+import { useContext } from "react";
 import { IoMdLogIn } from "react-icons/io";
+import { AuthContext } from "../context/AuthContext";
 
 const Navbar = () => {
+  const { handleLoginWithGoogle, status, handleLogOut } =
+    useContext(AuthContext);
   return (
     <nav className="w-full bg-backgroundDark">
       <div className="max-w-[1280px] mx-auto flex flex-row justify-between  items-center p-4">
@@ -13,12 +17,27 @@ const Navbar = () => {
           </p>
         </div>
         <div className="hidden sm:block">
-          <div className="flex flex-row justify-center  items-center text-backgroundDark bg-buttonPrimary rounded-lg w-[200px] py-3 my-4 gap-4 hover:bg-backgroundDark hover:text-textWhite transition  duration-300">
-            <div className="text-lg font-semibold font-poppins">Login</div>
-            <div className="text-4xl ">
-              <IoMdLogIn />
-            </div>
-          </div>
+          {status === "authenticated" ? (
+            <button
+              className="flex flex-row justify-center  items-center text-backgroundDark bg-buttonPrimary rounded-lg w-[200px] py-3 my-4 gap-4 hover:bg-backgroundDark hover:text-textWhite transition  duration-300"
+              onClick={handleLogOut}
+            >
+              <div className="text-lg font-semibold font-poppins">Profile</div>
+              <div className="text-4xl ">
+                <IoMdLogIn />
+              </div>
+            </button>
+          ) : (
+            <button
+              className="flex flex-row justify-center  items-center text-backgroundDark bg-buttonPrimary rounded-lg w-[200px] py-3 my-4 gap-4 hover:bg-backgroundDark hover:text-textWhite transition  duration-300"
+              onClick={handleLoginWithGoogle}
+            >
+              <div className="text-lg font-semibold font-poppins">Login</div>
+              <div className="text-4xl ">
+                <IoMdLogIn />
+              </div>
+            </button>
+          )}
         </div>
       </div>
     </nav>
