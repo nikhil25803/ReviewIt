@@ -15,7 +15,7 @@ const Statistics = () => {
             <StatisticsCard number={100} title={"Users"} />
             <StatisticsCard number={50} title={"Requests"} />
             <StatisticsCard number={25} title={"Reviews"} />
-            <StatisticsCard number={200} title={"Resume(s)"} />
+            <StatisticsCard number={200} title={"Resumes"} />
           </div>
         </div>
         <div className="flex-1 hidden lg:block">

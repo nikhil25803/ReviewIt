@@ -16,7 +16,7 @@ const Hero = () => {
             open-source platform. Elevate your professional story, whether
             you're entering the job market or making a career change.
           </p>
-          <button className="mr-auto text-lg text-backgroundLight font-semibold bg-buttonPrimary rounded-lg w-[200px] py-3 my-4 hover:bg-backgroundLight hover:text-textWhite transition  duration-300">
+          <button className="mr-auto text-lg text-backgroundLight font-semibold bg-buttonPrimary rounded-lg w-[200px] py-3 my-4 hover:bg-backgroundLight hover:text-textWhite transition  duration-300 font-poppins">
             Get Started
           </button>
         </div>
