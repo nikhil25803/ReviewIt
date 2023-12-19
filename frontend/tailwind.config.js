@@ -13,19 +13,10 @@ export default {
         buttonSecondary: "#FACC15",
       },
       fontFamily: {
-        poppins: ["Poppins", "sans-serif"],
+        poppins: ["Poppins"],
         quantico: ["Quantico", "sans-serif"],
       },
     },
   },
   plugins: [],
 };
-
-// colors: {
-//   backgrounddark: "#020617",
-//   backgroundlight: "#111827",
-//   textlight: "#6B7280",
-//   textdark: "#EAB308",
-//   buttons:"#FACC15",
-//   stark:"#DFF6FF"
-// },

@@ -1,18 +1,17 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
-
-const Home = () => {
-  return <div>Home Page</div>;
-};
+import Footer from "./components/Footer";
+import Homepage from "./pages/Homepage";
 
 const App = () => {
   return (
     <div>
       <Router>
+        <Navbar />
         <Routes>
-          <Route path="/" element={<Navbar />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Homepage />} />
         </Routes>
+        <Footer />
       </Router>
     </div>
   );
