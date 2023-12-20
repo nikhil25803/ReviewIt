@@ -85,42 +85,86 @@ class UserProfile(APIView):
 
     def get(self, request):
         # Get query parameter and headers from the request
-        username = request.GET.get("username")
+        query_username = request.GET.get("username")
         headers = dict(request.headers)
 
+        # First, validate that the username exists or not
+        if not UserModel.objects.filter(username=query_username).exists():
+            return JsonResponse(
+                {
+                    "data": None,
+                    "status": status.HTTP_404_NOT_FOUND,
+                    "message": "User doesnot exist.",
+                }
+            )
+
+        # Setting innitail value for authorization purpose
+        headers_uid = headers["Uid"] if "Uid" in headers.keys() else None
+        headers_username = headers["Username"] if "Username" in headers.keys() else None
+        headers_jwt = (
+            headers["Authorization"] if "Authorization" in headers.keys() else None
+        )
+
+        # What kind of data we need to share
+        profile_data, dashboard_data = False, False
+
         # Fetch Authorization key from the headers which is apparently a JWT token
-        if "Authorization" in headers.keys():
-            jwt_token = headers["Authorization"]
-
+        if headers_jwt:
             # Decode the JWT Token
-            decoded_data = decode(jwt_token)
-
-            # Fetch user details based on the username provided
-            user_object = UserModel.objects.filter(username=username).values()[0]
+            decoded_data = decode(headers_jwt)
 
             #  If token is valid
-            if decoded_data and decoded_data["is_expired"] is False:
-                # If requested user is loggedin as well
-                if user_object["uid"] == decoded_data["uid"]:
-                    # Serialized data for logged-in user
-                    serialized_data = UserProfileSerializer(user_object)
-                    return JsonResponse(
-                        {
-                            "data": serialized_data.data,
-                            "status": status.HTTP_200_OK,
-                            "loggedin_user": True,
-                        }
-                    )
-                else:
-                    # The requested user is not loggedin
-                    serialized_data = UserProfileSerializer(user_object)
-                    return JsonResponse(
-                        {
-                            "data": serialized_data.data,
-                            "status": status.HTTP_200_OK,
-                            "loggedin_user": True,
-                        }
-                    )
+            if decoded_data["is_expired"] is True:
+                return JsonResponse(
+                    {
+                        "status": status.HTTP_400_BAD_REQUEST,
+                        "message": "JWT Token is expired. Please login again",
+                    }
+                )
+
+            # If uid and username mathced from decoded data as well as query then user is requesting profile data
+            if (
+                headers_uid == decoded_data["uid"]
+                and headers_username == decoded_data["username"]
+                and decoded_data["username"] == query_username
+            ):
+                profile_data = True
+            else:
+                dashboard_data = True
+        else:
+            dashboard_data = True
+
+        # If request is for profile data
+        if profile_data is True and dashboard_data is False:
+            # Fetch user details based on the username provided
+            user_object = UserModel.objects.filter(username=query_username).values()[0]
+
+            # Serialized data for logged-in user
+            serialized_data = UserProfileSerializer(user_object)
+            return JsonResponse(
+                {
+                    "data": serialized_data.data,
+                    "status": status.HTTP_200_OK,
+                    "message": "Fetched profile data",
+                }
+            )
+
+        # If request is for dashboard data
+        if dashboard_data is True and profile_data is False:
+            # Fetch user details based on the username provided
+            user_object = UserModel.objects.filter(username=query_username).values()[0]
+
+            # Serialized data for logged-in user
+            serialized_data = UserProfileSerializer(user_object)
+            return JsonResponse(
+                {
+                    "data": serialized_data.data,
+                    "status": status.HTTP_200_OK,
+                    "message": "Fetched dashboard data",
+                }
+            )
+
+        # Else case
         return Response(
             {
                 "status": status.HTTP_400_BAD_REQUEST,
@@ -132,42 +176,52 @@ class UserProfile(APIView):
 
     def patch(self, request):
         # Get query parameter and headers from the request
-        username = request.GET.get("username")
+        query_username = request.GET.get("username")
         headers = dict(request.headers)
+
+        # Setting innitail value for authorization purpose
+        headers_uid = headers["Uid"] if "Uid" in headers.keys() else None
+        headers_username = headers["Username"] if "Username" in headers.keys() else None
+        headers_jwt = (
+            headers["Authorization"] if "Authorization" in headers.keys() else None
+        )
 
         # Get request body
         incoming_data = request.data
 
         # Fetch Authorization key from the headers which is apparently a JWT token
-        if "Authorization" in headers.keys():
-            jwt_token = headers["Authorization"]
-
+        if headers_jwt:
             # Decode the JWT Token
-            decoded_data = decode(jwt_token)
-
-            # Fetch user data to authorization
-            user_details = UserModel.objects.filter(username=username).values()[0]
+            decoded_data = decode(headers_jwt)
 
             #  If token is valid
-            if decoded_data and decoded_data["is_expired"] is False:
-                # If requested user is loggedin as well
-                if user_details["uid"] == decoded_data["uid"]:
-                    # Serialize and save the data
-                    user_object = UserModel.objects.filter(
-                        uid=decoded_data["uid"]
-                    ).first()
-                    serialized_data = UserProfileUpdateSerialzer(
-                        user_object, data=incoming_data, partial=True
-                    )
-                    if serialized_data.is_valid(raise_exception=True):
-                        serialized_data.save()
-                        return Response(serialized_data.data, status=status.HTTP_200_OK)
-                    return Response(
-                        serialized_data.errors, status=status.HTTP_400_BAD_REQUEST
-                    )
+            if decoded_data["is_expired"] is True:
+                return JsonResponse(
+                    {
+                        "status": status.HTTP_400_BAD_REQUEST,
+                        "message": "JWT Token is expired. Please login again",
+                    }
+                )
+
+            # If uid and username mathced from decoded data as well as query then user is updating his profile
+            if (
+                headers_uid == decoded_data["uid"]
+                and headers_username == decoded_data["username"]
+                and decoded_data["username"] == query_username
+            ):
+                user_object = UserModel.objects.filter(uid=decoded_data["uid"]).first()
+                serialized_data = UserProfileUpdateSerialzer(
+                    user_object, data=incoming_data, partial=True
+                )
+                if serialized_data.is_valid(raise_exception=True):
+                    serialized_data.save()
+                    return Response(serialized_data.data, status=status.HTTP_200_OK)
+                return Response(
+                    serialized_data.errors, status=status.HTTP_400_BAD_REQUEST
+                )
         return JsonResponse(
             {
-                "status": status.HTTP_401_UNAUTHORIZED,
+                "status": status.HTTP_400_BAD_REQUEST,
                 "message": "You are not authorized to make this request",
             }
         )

@@ -37,7 +37,11 @@ def decode(jwt_token: str):
 
         # Check for the "uid" claim in the payload
         if "uid" in token:
-            return {"is_expired": False, "uid": token["uid"]}
+            return {
+                "is_expired": False,
+                "uid": token["uid"],
+                "username": token["username"],
+            }
     except jwt.ExpiredSignatureError:
         return {"is_expired": True}
     except jwt.InvalidTokenError:

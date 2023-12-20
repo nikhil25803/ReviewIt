@@ -55,7 +55,7 @@ class UserRegistrationSerializer(serializers.Serializer):
 class UserLoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
-        fields = ["id", "uid", "username", "email"]
+        fields = ["uid", "username"]
 
 
 """User Profile - Fetch"""

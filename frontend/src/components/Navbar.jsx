@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import { IoMdLogIn } from "react-icons/io";
 import { AuthContext } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const { handleLoginWithGoogle, status, handleLogOut } =
-    useContext(AuthContext);
+  const { status, handleLogOut } = useContext(AuthContext);
   return (
     <nav className="w-full bg-backgroundDark">
       <div className="max-w-[1280px] mx-auto flex flex-row justify-between  items-center p-4">
@@ -22,21 +22,21 @@ const Navbar = () => {
               className="flex flex-row justify-center  items-center text-backgroundDark bg-buttonPrimary rounded-lg w-[200px] py-3 my-4 gap-4 hover:bg-backgroundDark hover:text-textWhite transition  duration-300"
               onClick={handleLogOut}
             >
-              <div className="text-lg font-semibold font-poppins">Profile</div>
+              <div className="text-lg font-semibold font-poppins">Logout</div>
               <div className="text-4xl ">
                 <IoMdLogIn />
               </div>
             </button>
           ) : (
-            <button
+            <Link
               className="flex flex-row justify-center  items-center text-backgroundDark bg-buttonPrimary rounded-lg w-[200px] py-3 my-4 gap-4 hover:bg-backgroundDark hover:text-textWhite transition  duration-300"
-              onClick={handleLoginWithGoogle}
+              to="/login"
             >
               <div className="text-lg font-semibold font-poppins">Login</div>
               <div className="text-4xl ">
                 <IoMdLogIn />
               </div>
-            </button>
+            </Link>
           )}
         </div>
       </div>

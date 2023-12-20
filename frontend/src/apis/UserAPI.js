@@ -54,3 +54,28 @@ export const userAuthentication = async (incomingData) => {
     return null;
   }
 };
+
+/*
+User Profile API Call
+*/
+export const userProfileData = async (payload) => {
+  try {
+    const response = await userAPIService.get("api/user/profile", {
+      params: {
+        username: payload.username,
+      },
+      headers: {
+        Authorization: payload.tokenData,
+        Uid: payload.uid,
+        Username: payload.username,
+      },
+    });
+    if (response && response.data) {
+      return response.data; // Return the object directly
+    } else {
+      return null;
+    }
+  } catch (error) {
+    return null;
+  }
+};

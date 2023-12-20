@@ -4,7 +4,7 @@ import HeroSectionAnimation from "../assets/animation/HeroSectionAnimation.json"
 const Hero = () => {
   return (
     <section className="w-full  bg-backgroundLight">
-      <div className="max-w-[1280px] mx-auto h-[100vh] flex flex-row justify-between items-center p-4 ">
+      <div className="max-w-[1280px] mx-auto h-fit flex flex-row justify-between items-center p-4 ">
         <div className="flex-1 flex flex-col gap-5 justify-start">
           <h1 className="text-4xl text-textWhite font-quantico">
             Elevate Your <span className="text-textLight">Resume</span> with

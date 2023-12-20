@@ -18,7 +18,10 @@ const onAuthStateHasChanged = (setSession) => {
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
       clearUserDetails();
-      return setSession({ status: "not-authenticated", tokenData: null });
+      return setSession({
+        status: "not-authenticated",
+        sessionData: null,
+      });
     }
 
     try {
@@ -26,15 +29,21 @@ const onAuthStateHasChanged = (setSession) => {
       if (authDetails) {
         setSession({
           status: "authenticated",
-          tokenData: authDetails,
+          sessionData: JSON.parse(authDetails),
         });
       } else {
         clearUserDetails();
-        setSession({ status: "not-authenticated", tokenData: null });
+        setSession({
+          status: "not-authenticated",
+          sessionData: null,
+        });
       }
     } catch (error) {
       clearUserDetails();
-      setSession({ status: "not-authenticated", tokenData: null });
+      setSession({
+        status: "not-authenticated",
+        sessionData: null,
+      });
     }
   });
 };
@@ -47,7 +56,7 @@ const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const [session, setSession] = useState({
     status: "checking",
-    tokenData: null,
+    sessionData: null,
   });
 
   useEffect(() => {
@@ -59,7 +68,7 @@ const AuthProvider = ({ children }) => {
     clearUserDetails();
     setSession({
       status: "not-authenticated",
-      tokenData: null,
+      sessionData: null,
     });
     navigate("/");
   };
@@ -73,7 +82,7 @@ const AuthProvider = ({ children }) => {
       if (result && result.user) {
         const payload = {
           name: result.user.displayName,
-          username: result.user.email.split("@")[0],
+          username: result.user.email.split("@")[0].replace(/\./g, ""),
           email: result.user.email,
           avatar: result.user.photoURL,
           uid: result.user.uid,
@@ -82,11 +91,23 @@ const AuthProvider = ({ children }) => {
         const userAuthResponse = await userAuthentication(payload);
 
         if (userAuthResponse && userAuthResponse.token) {
-          localStorage.setItem("auth", userAuthResponse.token);
+          localStorage.setItem(
+            "auth",
+            JSON.stringify({
+              token: userAuthResponse.token,
+              username: payload.username,
+              uid: payload.uid,
+            })
+          );
           setSession({
             status: "authenticated",
-            tokenData: userAuthResponse.token,
+            sessionData: {
+              token: userAuthResponse.token,
+              username: payload.username,
+              uid: payload.uid,
+            },
           });
+          setSession({ ...session, status: "authenticated" });
           navigate("/");
         } else {
           throw new Error("Unable to obtain JWT token");
@@ -95,9 +116,11 @@ const AuthProvider = ({ children }) => {
         throw new Error("Unable to register user");
       }
     } catch (error) {
-      console.log(error.message);
       clearUserDetails();
-      setSession({ status: "not-authenticated", tokenData: null });
+      setSession({
+        status: "not-authenticated",
+        sessionData: null,
+      });
     }
   };
 
