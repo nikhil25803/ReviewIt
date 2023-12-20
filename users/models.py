@@ -1,11 +1,13 @@
 from django.db import models
 
 
-# Create your models here.
+"""User Model"""
+
+
 class UserModel(models.Model):
-    uid = models.CharField(max_length=25, unique=True, editable=False)
+    uid = models.CharField(max_length=50, unique=True, editable=False)
     username = models.CharField(max_length=50, unique=True)
-    email = models.EmailField(max_length=50, unique=True)
+    email = models.EmailField(max_length=50, unique=True, editable=False)
     name = models.CharField(max_length=50)
     avatar = models.CharField(max_length=250, null=True)
     bio = models.CharField(max_length=250, null=True)
