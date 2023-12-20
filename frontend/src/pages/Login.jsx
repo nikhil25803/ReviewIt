@@ -11,7 +11,6 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(status);
     if (status === "authenticated") {
       navigate("/");
     }
