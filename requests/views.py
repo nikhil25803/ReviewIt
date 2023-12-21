@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from rest_framework.views import APIView
 from .serializers import RequestPostSerializer, ResponsePostSerializer
 from rest_framework import status
+from users.helpers import decode
 
 """Request Service Ping Test"""
 
@@ -51,26 +52,60 @@ class ResponsePostView(APIView):
     def post(self, request):
         # Getting the incoming data
         incoming_data = request.data
-        try:
-            validations = ResponsePostSerializer(data=incoming_data)
-            if validations.is_valid(raise_exception=True):
-                validations.save()
+
+        # Validate JWT Token
+        headers = dict(request.headers)
+
+        headers_jwt = (
+            headers["Authorization"] if "Authorization" in headers.keys() else None
+        )
+        if headers_jwt:
+            # Decode the JWT Token
+            decoded_data = decode(headers_jwt)
+
+            #  If token is valid
+            if decoded_data["is_expired"] is True:
                 return JsonResponse(
-                    data={
-                        "status": status.HTTP_202_ACCEPTED,
-                        "message": "Successfully submitted the response.",
+                    {
+                        "status": status.HTTP_400_BAD_REQUEST,
+                        "message": "JWT Token is expired. Please login again",
                     }
                 )
-            return JsonResponse(
-                data={
-                    "status": status.HTTP_400_BAD_REQUEST,
-                    "message": "Unable to submit the response.",
-                }
-            )
-        except Exception as e:
-            return JsonResponse(
-                data={
-                    "status": status.HTTP_400_BAD_REQUEST,
-                    "message": f"{e}",
-                }
-            )
+
+            # Check if the legit user is making the requests
+            if not decoded_data["uid"] == incoming_data["fromuserid"]:
+                return JsonResponse(
+                    {
+                        "status": status.HTTP_400_BAD_REQUEST,
+                        "message": "You are not authorized to make a submission to this request",
+                    }
+                )
+            try:
+                validations = ResponsePostSerializer(data=incoming_data)
+                if validations.is_valid(raise_exception=True):
+                    validations.save()
+                    return JsonResponse(
+                        data={
+                            "status": status.HTTP_202_ACCEPTED,
+                            "message": "Successfully submitted the response.",
+                        }
+                    )
+                return JsonResponse(
+                    data={
+                        "status": status.HTTP_400_BAD_REQUEST,
+                        "message": "Unable to submit the response.",
+                    }
+                )
+            except Exception as e:
+                return JsonResponse(
+                    data={
+                        "status": status.HTTP_400_BAD_REQUEST,
+                        "message": f"{e}",
+                    }
+                )
+        return JsonResponse(
+            data={
+                "status": status.HTTP_400_BAD_REQUEST,
+                "message": "Token Not Provided.",
+            }
+        )

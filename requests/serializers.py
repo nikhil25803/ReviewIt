@@ -56,12 +56,12 @@ class ResponsePostSerializer(serializers.Serializer):
         # Validate request_id
         if data["requestid"]:
             if not RequestModel.objects.filter(requestid=data["requestid"]).exists():
-                raise serializers.ValidationError("Invalid request ID")
+                raise Exception("Invalid request ID")
 
         # Validate from user id
         if data["fromuserid"]:
             if not RequestModel.objects.filter(userid=data["fromuserid"]).exists():
-                raise serializers.ValidationError("Invalid user ID")
+                raise Exception("Invalid user ID")
 
         # Check if a response to it has already
         if (
@@ -70,9 +70,7 @@ class ResponsePostSerializer(serializers.Serializer):
             ]
             is True
         ):
-            raise serializers.ValidationError(
-                "A response to this request has already been submitted"
-            )
+            raise Exception("A response to this request has already been submitted")
 
         return data
 
