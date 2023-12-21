@@ -8,6 +8,7 @@ from .serializers import (
     UserLoginSerializer,
     UserProfileSerializer,
     UserProfileUpdateSerialzer,
+    UserDashboardSerializer,
 )
 from rest_framework import status
 from .helpers import encode, decode
@@ -155,7 +156,7 @@ class UserProfile(APIView):
             user_object = UserModel.objects.filter(username=query_username).values()[0]
 
             # Serialized data for logged-in user
-            serialized_data = UserProfileSerializer(user_object)
+            serialized_data = UserDashboardSerializer(user_object)
             return JsonResponse(
                 {
                     "data": serialized_data.data,
