@@ -1,11 +1,14 @@
-import { useContext, useEffect, useState } from "react";
+// Imports
+import { useDebugValue, useEffect, useState } from "react";
 import Lottie from "lottie-react";
 import NotFound from "../assets/animation/NotFound.json";
 import { useNavigate, useParams } from "react-router-dom";
 import { userAPIService } from "../apis/UserAPI";
-import ContentLoader from "react-content-loader";
 import Dashboard from "../components/userProfile/Dashboard";
+import SearchingProfile from "../assets/animation/SearchingProfile.json";
+import ServerError from "../assets/animation/ServerError.json";
 
+// React Components
 const Profile = () => {
   // Getting path param (slug)
   const params = useParams();
@@ -82,29 +85,22 @@ const Profile = () => {
   const renderComponent = () => {
     if (userAvailable == "checking") {
       return (
-        <ContentLoader
-          speed={2}
-          width={500}
-          height={160}
-          viewBox="0 0 500 160"
-          backgroundColor="#f3f3f3"
-          foregroundColor="#ecebeb"
-        >
-          <rect x="48" y="8" rx="3" ry="3" width="88" height="6" />
-          <rect x="48" y="26" rx="3" ry="3" width="52" height="6" />
-          <rect x="0" y="56" rx="3" ry="3" width="410" height="6" />
-          <rect x="0" y="72" rx="3" ry="3" width="380" height="6" />
-          <rect x="0" y="88" rx="3" ry="3" width="178" height="6" />
-          <circle cx="20" cy="20" r="20" />
-        </ContentLoader>
+        <div className="flex flex-col justify-center items-center">
+          <div className="max-w-[500px] md:max-w-[750px]">
+            <Lottie animationData={SearchingProfile} loop={true} />
+          </div>
+          <div className="text-textWhite text-2xl px-5 py-5 font-semibold font-poppins bg-backgroundDark rounded-lg">
+            <h1 className="font-quantico">Searching ...</h1>
+          </div>
+        </div>
       );
     } else if (userAvailable === "not-found") {
       return (
         <div className="flex flex-col justify-center items-center">
-          <div className="max-w-[500px] md:max-w-[750px]">
+          <div className="max-w-[500px] md:max-w-[750px] max-h-screen">
             <Lottie animationData={NotFound} />
           </div>
-          <div className="text-textWhite text-3xl px-5 py-5 font-semibold font-poppins bg-backgroundDark rounded-lg">
+          <div className="text-textWhite text-2xl px-5 py-5 font-semibold font-poppins bg-backgroundDark rounded-lg">
             <h1 className="font-quantico">User Not Found</h1>
           </div>
         </div>
@@ -124,17 +120,17 @@ const Profile = () => {
     ) {
       return (
         <div>
-          <Dashboard />
+          <Dashboard props={userData} />
         </div>
       );
     } else {
       return (
         <div className="flex flex-col justify-center items-center">
-          <div className="max-w-[500px] md:max-w-[750px]">
-            <Lottie animationData={NotFound} />
+          <div className="max-w-[500px] md:max-w-[750px] max-h-screen">
+            <Lottie animationData={ServerError} loop={true} />
           </div>
-          <div className="text-textWhite text-3xl px-5 py-5 font-semibold font-poppins bg-backgroundDark rounded-lg">
-            <h1 className="font-quantico">User Not Found</h1>
+          <div className="text-textWhite text-2xl px-5 py-5 font-semibold font-poppins bg-backgroundDark rounded-lg">
+            <h1 className="font-quantico">Server Error ...</h1>
           </div>
         </div>
       );
