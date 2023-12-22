@@ -1,5 +1,5 @@
 import React from "react";
-import { BsLinkedin, BsGithub, BsTwitter } from "react-icons/bs";
+import { BsLinkedin, BsGithub } from "react-icons/bs";
 import StatisticsCard from "../StatisticsCard";
 import GooglePendingAnimation from "../../assets/animation/GooglePendingAnimation.json";
 import GoogleLogoAnimation from "../../assets/animation/GoogleLogoAnimation.json";
@@ -8,7 +8,7 @@ import Lottie from "lottie-react";
 // React Component
 const Dashboard = (props) => {
   const dashboardData = props.props.data;
-  console.log(dashboardData);
+
   return (
     <div className="text-white flex flex-col justify-center items-center h-fit">
       <div className="bg-backgroundDark p-4 w-full mx-auto rounded-lg grid grid-cols-1 md:grid-cols-2 gap-4 justify-between items-start md:items-center ">

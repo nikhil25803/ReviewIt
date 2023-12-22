@@ -1,5 +1,5 @@
 // Imports
-import { useDebugValue, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Lottie from "lottie-react";
 import NotFound from "../assets/animation/NotFound.json";
 import { useNavigate, useParams } from "react-router-dom";
@@ -7,6 +7,7 @@ import { userAPIService } from "../apis/UserAPI";
 import Dashboard from "../components/userProfile/Dashboard";
 import SearchingProfile from "../assets/animation/SearchingProfile.json";
 import ServerError from "../assets/animation/ServerError.json";
+import ProfilePage from "../components/userProfile/ProfilePage";
 
 // React Components
 const Profile = () => {
@@ -111,7 +112,7 @@ const Profile = () => {
     ) {
       return (
         <div>
-          <div>Profile Data</div>
+          <ProfilePage props={userData} />
         </div>
       );
     } else if (
@@ -145,41 +146,3 @@ const Profile = () => {
 };
 
 export default Profile;
-
-/*
-export const userProfileData = async (payload) => {
-  try {
-    const response = await userAPIService.get("api/user/profile", {
-      params: {
-        username: payload.username,
-      },
-      headers: {
-        Authorization: payload.tokenData,
-        Uid: payload.uid,
-        Username: payload.username,
-      },
-    });
-    if (response && response.data) {
-      return response.data; // Return the object directly
-    } else {
-      return null;
-    }
-  } catch (error) {
-    return null;
-  }
-};
-
-
-{apiResponse && apiResponse.status === 404 ? (
-          <div className="flex flex-col justify-center items-center">
-            <div className="max-w-[500px] md:max-w-[750px]">
-              <Lottie animationData={NotFound} />
-            </div>
-            <div className="text-textWhite text-3xl px-5 py-5 font-semibold font-poppins bg-backgroundDark rounded-lg">
-              <h1 className="font-quantico">User Not Found</h1>
-            </div>
-          </div>
-        ) : (
-          <div>Profile</div>
-        )}
-*/
