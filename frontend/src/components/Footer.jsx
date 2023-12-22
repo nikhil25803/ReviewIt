@@ -5,7 +5,7 @@ const Footer = () => {
     <footer className="w-full bg-backgroundDark">
       <div className="max-w-[1280px] mx-auto flex flex-row justify-between items-center p-4 py-10">
         <div className="flex flex-col gap-5 mx-auto md:mx-0">
-          <h1 className="text-3xl text-textWhite font-semibold font-quantico">
+          <h1 className="text-3xl text-textWhite font-semibold font-quantico mx-4 md:mx-0">
             Made by <span className="text-textLight">Nikhil Raj</span>
           </h1>
           <div className="text-textWhite flex flex-row mt-3 justify-between items-center text-2xl gap-8 bg-backgroundLight h-10 py-8 px-8 rounded-lg hover:scale-105 duration-300">

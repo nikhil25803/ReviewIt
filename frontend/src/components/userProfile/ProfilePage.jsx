@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ProfileDashboard from "./ProfileDashboard";
 import ProfileRequests from "./ProfileRequests";
 import ProfileResponse from "./ProfileResponse";
+import ProfileEdit from "./ProfileEdit";
 
 const ProfilePage = (props) => {
   // Getting props data
@@ -90,7 +91,9 @@ const ProfilePage = (props) => {
             <ProfileResponse />
           </div>
         ) : activePage == "edit" ? (
-          <div>Edit Page</div>
+          <div>
+            <ProfileEdit props={profileData} />
+          </div>
         ) : (
           <div>Invalid</div>
         )}
