@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import ProfileDashboard from "./ProfileDashboard";
+import ProfileRequests from "./ProfileRequests";
+import ProfileResponse from "./ProfileResponse";
 
 const ProfilePage = (props) => {
   // Getting props data
@@ -80,9 +82,13 @@ const ProfilePage = (props) => {
             <ProfileDashboard props={profileData} />
           </div>
         ) : activePage == "requests" ? (
-          <div>Request Page</div>
+          <div>
+            <ProfileRequests />
+          </div>
         ) : activePage == "response" ? (
-          <div>Response Page</div>
+          <div>
+            <ProfileResponse />
+          </div>
         ) : activePage == "edit" ? (
           <div>Edit Page</div>
         ) : (

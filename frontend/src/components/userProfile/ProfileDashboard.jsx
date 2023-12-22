@@ -4,7 +4,6 @@ import StatisticsCard from "../StatisticsCard";
 const ProfileDashboard = (props) => {
   // Getting Props data
   const dashboardData = props.props;
-  console.log(dashboardData);
 
   return (
     <div className="text-white flex flex-col justify-center items-center h-fit mt-10">
