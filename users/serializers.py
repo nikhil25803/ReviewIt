@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import UserModel
-
+from requests.models import RequestModel, ResponseModel
 
 """User Registration Serializer"""
 
@@ -58,13 +58,62 @@ class UserLoginSerializer(serializers.ModelSerializer):
         fields = ["uid", "username"]
 
 
-"""User Profile - Fetch"""
+"""
+User Profile Data
+- Need to send to authenticated user only
+- Need one Request and Response serializer for this as well
+"""
+
+
+class RequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RequestModel
+        exclude = ["userid"]
+
+
+class ResponseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ResponseModel
+        exclude = ["fromuserid"]
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    # Fetching requetss made by this user
+    requests = serializers.SerializerMethodField()
+
+    # Fetcing all the response made by the user
+    response = serializers.SerializerMethodField()
+
     class Meta:
         model = UserModel
-        exclude = ["uid"]
+        exclude = ["uid", "id"]
+
+    # Method to fetch requests
+    def get_requests(self, obj):
+        # Filter requests that belong to this user
+        requests = RequestModel.objects.filter(userid=obj["uid"])
+
+        requests_serializer = RequestSerializer(requests, many=True)
+
+        return requests_serializer.data
+
+    # Method to fetch responses
+    def get_response(self, obj):
+        # Filter the responses submitted by this user
+        response = ResponseModel.objects.filter(fromuserid=obj["uid"])
+
+        response_serializer = ResponseSerializer(response, many=True)
+
+        return response_serializer.data
+
+
+"""User Dashboard Data"""
+
+
+class UserDashboardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserModel
+        exclude = ["uid", "id"]
 
 
 """User Profile - Update (PATCH Method)"""
