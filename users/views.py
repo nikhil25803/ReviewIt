@@ -142,9 +142,24 @@ class UserProfile(APIView):
 
             # Serialized data for logged-in user
             serialized_data = UserProfileSerializer(user_object)
+
+            # Populating reposne lists with some more information
+            response_data = serialized_data.data
+            requests, response = response_data["requests"], response_data["response"]
+
+            for _obj in response:
+                request_key = _obj["requestid"]
+                for _req in requests:
+                    if _req["requestid"] == request_key:
+                        _obj["avatar"] = _req["avatar"]
+                        _obj["name"] = _req["name"]
+                        _obj["email"] = _req["email"]
+                        _obj["resumelink"] = _req["resumelink"]
+                        _obj["description"] = _req["description"]
+
             return JsonResponse(
                 {
-                    "data": serialized_data.data,
+                    "data": response_data,
                     "status": status.HTTP_200_OK,
                     "message": "Fetched profile data",
                 }

@@ -12,6 +12,8 @@ class RequestPostSerializer(serializers.Serializer):
     userid = serializers.CharField()
     resumelink = serializers.CharField()
     email = serializers.EmailField()
+    name = serializers.CharField()
+    avatar = serializers.CharField()
     description = serializers.CharField(required=False)
 
     def validate(self, data):
