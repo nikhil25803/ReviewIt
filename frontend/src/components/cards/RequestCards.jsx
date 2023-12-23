@@ -6,7 +6,7 @@ const RequestCards = (props) => {
   const requestCardData = props.props;
 
   return (
-    <div className="bg-backgroundLight p-4 mx-auto font-poppins rounded-lg">
+    <div className="bg-backgroundLight p-4 mx-auto font-poppins rounded-lg flex ">
       <div className="flex flex-col gap-5 justify-between items-center">
         <div className="flex flex-col gap-4">
           <div className="flex flex-row gap-4 justify-start items-center">

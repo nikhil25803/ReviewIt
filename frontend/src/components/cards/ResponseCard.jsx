@@ -3,7 +3,7 @@ import React from "react";
 const ResponseCard = (props) => {
   // Collecting Response
   const responseCardData = props.props;
-  console.log(responseCardData);
+
   return (
     <div>
       <div className="bg-backgroundLight p-4 w-full mx-auto font-poppins rounded-lg">

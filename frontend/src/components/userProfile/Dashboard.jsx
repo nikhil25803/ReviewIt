@@ -44,11 +44,9 @@ const Dashboard = (props) => {
       if (response && response.data) {
         return response.data;
       } else {
-        console.log("Response or response.data is null", response);
         return null;
       }
     } catch (error) {
-      console.error("API call error:", error);
       return null;
     }
   };
@@ -101,17 +99,17 @@ const Dashboard = (props) => {
             setResponseMessage(`${response.message}`);
             setTimeout(() => {
               window.location.reload();
-            }, 5000);
+            }, 3500);
           } else if (response.status == 202) {
             setResponseMessage("submitted");
             setTimeout(() => {
               window.location.reload();
-            }, 5000);
+            }, 3500);
           } else {
             setResponseMessage(`Server Error`);
             setTimeout(() => {
               window.location.reload();
-            }, 5000);
+            }, 3500);
             return;
           }
         })
@@ -119,14 +117,14 @@ const Dashboard = (props) => {
           setResponseMessage(`Server Error.`);
           setTimeout(() => {
             window.location.reload();
-          }, 5000);
+          }, 3500);
           return;
         });
     } catch (error) {
       setResponseMessage(`Server Error.`);
       setTimeout(() => {
         window.location.reload();
-      }, 5000);
+      }, 3500);
       return;
     }
   };
