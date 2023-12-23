@@ -111,9 +111,27 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 
 class UserDashboardSerializer(serializers.ModelSerializer):
+    # Get count of total requests
+    requestCount = serializers.SerializerMethodField()
+
+    # Get count of total response
+    responseCount = serializers.SerializerMethodField()
+
     class Meta:
         model = UserModel
         exclude = ["id"]
+
+    # Method to calculate count
+    def get_requestCount(self, obj):
+        # Total requests
+        requests = RequestModel.objects.filter(userid=obj["uid"]).values()
+        return f"{len(requests)}"
+
+    # Method to calculate count
+    def get_responseCount(self, obj):
+        # Total requests
+        response = ResponseModel.objects.filter(fromuserid=obj["uid"]).values()
+        return f"{len(response)}"
 
 
 """User Profile - Update (PATCH Method)"""

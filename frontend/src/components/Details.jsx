@@ -8,7 +8,7 @@ const Details = () => {
   return (
     <section className="w-full bg-backgroundDark text-textWhite">
       <div className="max-w-[1280px] mx-auto flex flex-col p-4 h-fit py-10">
-        <div className="mr-auto text-4xl font-quantico py-10">
+        <div className="mr-auto text-3xl md:text-4xl font-quantico py-10">
           Get Started <span className="text-textLight">...</span>
         </div>
         <div className="grid md:grid-cols-3 gap-5 mb-10 mx-auto">

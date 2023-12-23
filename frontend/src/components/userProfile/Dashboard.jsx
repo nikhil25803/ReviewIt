@@ -194,10 +194,20 @@ const Dashboard = (props) => {
             Stats <span className="text-textLight">...</span>
           </div>
           <div>
-            <StatisticsCard number={100} title={"Requests Received"} />
+            <StatisticsCard
+              number={
+                dashboardData.requestCount ? dashboardData.requestCount : 0
+              }
+              title={"Requests Received"}
+            />
           </div>
           <div>
-            <StatisticsCard number={100} title={"Reviews Submitted"} />
+            <StatisticsCard
+              number={
+                dashboardData.responseCount ? dashboardData.responseCount : 0
+              }
+              title={"Reviews Submitted"}
+            />
           </div>
         </div>
       </div>

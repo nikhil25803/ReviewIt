@@ -12,17 +12,35 @@ from .serializers import (
 )
 from rest_framework import status
 from .helpers import encode, decode
+from .models import UserModel
+from requests.models import RequestModel, ResponseModel
 
 """User API Ping Test"""
 
 
 @api_view(http_method_names=["GET"])
 def user_index(request):
-    details = {
-        "status": 200,
-        "message": "Project ReviewIt",
-        "github": "https://github.com/nikhil25803/ReviewIt",
-    }
+    global details
+    try:
+        user_count = len(UserModel.objects.all().values())
+        request_count = len(RequestModel.objects.all().values())
+        response_count = len(ResponseModel.objects.all().values())
+
+        details = {
+            "status": 200,
+            "message": "Project ReviewIt",
+            "count": {
+                "user_count": user_count,
+                "request_count": request_count,
+                "response_count": response_count,
+            },
+        }
+    except Exception:
+        details = {
+            "status": 400,
+            "message": "Bad Connection",
+            "github": "https://github.com/nikhil25803/ReviewIt",
+        }
     return JsonResponse(data=details)
 
 
