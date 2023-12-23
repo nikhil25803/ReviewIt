@@ -6,7 +6,7 @@ const StatisticsCard = ({ number, title }) => {
       <div className="text-textWhite bg-backgroundLight rounded-full p-7 text-xl border-x-2 border-textLight mb-4  whitespace-nowrap overflow-hidden overflow-ellipsis">
         {number}
       </div>
-      <h1 className="text-xxl text-textWhite font-quantico whitespace-nowrap overflow-hidden overflow-ellipsis">
+      <h1 className="text-lg md:text-xl text-textWhite font-quantico whitespace-nowrap overflow-hidden overflow-ellipsis">
         {title}
       </h1>
     </div>

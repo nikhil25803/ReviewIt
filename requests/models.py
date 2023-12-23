@@ -5,13 +5,10 @@ from datetime import date
 class RequestModel(models.Model):
     requestid = models.CharField(max_length=100, unique=True, editable=False)
     userid = models.CharField(max_length=100)
-    resumelink = models.CharField(max_length=100, unique=True)
+    resumelink = models.CharField(max_length=100)
     email = models.EmailField()
     name = models.CharField(max_length=50, null=True)
-    avatar = models.CharField(
-        max_length=250,
-        default="https://lh3.googleusercontent.com/a/ACg8ocJ-WWqNiQv0BppwWISN_SyIT6Xk3pPNVefijlfE7Hbc=s96-c",
-    )
+    avatar = models.CharField(max_length=250)
     description = models.CharField(max_length=2500, null=True)
     requestedat = models.DateField(default=date.today)
     responded = models.BooleanField(default=False, null=True)

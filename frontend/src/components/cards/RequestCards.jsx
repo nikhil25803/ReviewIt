@@ -16,20 +16,20 @@ const RequestCards = (props) => {
 
   return (
     <Fragment>
-      <div className="bg-backgroundLight p-4 mx-auto font-poppins rounded-lg flex ">
-        <div className="flex flex-col gap-5 justify-between items-center">
+      <div className="bg-backgroundLight p-4 font-poppins rounded-lg flex items-center justify-start w-full">
+        <div className="flex flex-col gap-5 mx-0">
           <div className="flex flex-col gap-4">
             <div className="flex flex-row gap-4 justify-start items-center">
               <img
                 src={requestCardData.avatar ? requestCardData.avatar : "#"}
                 alt="image"
-                className="rounded-lg"
+                className="rounded-full"
               />
-              <div className="flex flex-col justify-center items-start">
-                <h1 className="font-quantico text-xl">
+              <div className="flex flex-col justify-center items-start break-words overflow-hidden">
+                <h1 className="font-quantico text-xl ">
                   {requestCardData.name ? requestCardData.name : "Anonymus"}
                 </h1>
-                <p className="text-slate-500">{requestCardData.email}</p>
+                <p className="text-slate-500 ">{requestCardData.email}</p>
                 <a
                   className="text-slate-500 hover:text-textLight"
                   target="_blank"
@@ -47,7 +47,7 @@ const RequestCards = (props) => {
               <div>{requestCardData.description}</div>
             </div>
           </div>
-          <div className="border-t-2 p-2">
+          <div className="">
             <button
               className="flex flex-row justify-center items-center text-l font-quantico gap-5 bg-backgroundDark p-4 rounded-lg hover:scale-105 duration-300"
               onClick={() => setModalState(true)}
