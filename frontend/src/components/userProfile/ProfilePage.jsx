@@ -84,11 +84,11 @@ const ProfilePage = (props) => {
           </div>
         ) : activePage == "requests" ? (
           <div>
-            <ProfileRequests />
+            <ProfileRequests props={profileData} />
           </div>
         ) : activePage == "response" ? (
           <div>
-            <ProfileResponse />
+            <ProfileResponse props={profileData} />
           </div>
         ) : activePage == "edit" ? (
           <div>
