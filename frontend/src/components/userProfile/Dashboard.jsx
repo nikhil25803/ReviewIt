@@ -1,34 +1,133 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsLinkedin, BsGithub } from "react-icons/bs";
 import StatisticsCard from "../StatisticsCard";
 import GooglePendingAnimation from "../../assets/animation/GooglePendingAnimation.json";
 import GoogleLogoAnimation from "../../assets/animation/GoogleLogoAnimation.json";
 import Lottie from "lottie-react";
 import { auth } from "../../Firebase";
-import { GoogleAuthProvider } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { userAPIService } from "../../apis/UserAPI";
 
 // React Component
 const Dashboard = (props) => {
   // Collecting Props
   const dashboardData = props.props.data;
 
+  // Navigation State
+  const navigate = useNavigate();
+
   // New Google Provider for validation
   const googleProvider = new GoogleAuthProvider();
 
-  // State to be used as payload for making requests
-  const [payloadState, setPayloadState] = useState({});
+  // Make a state to store messages
+  const [responseMessage, setResponseMessage] = useState("nothing");
+
+  // Setting up form fields
+  const [file, setFile] = useState(null);
+  const [description, setDescription] = useState("");
+
+  // Reset everything on reload
+  useEffect(() => {
+    // Reset form fields
+    setDescription("");
+    setFile(null);
+    setResponseMessage("nothing");
+  }, []); // Empty dependency array to run only on mount and unmount
+
+  // API Call to submit new request
+  const submitANewRequest = async (data) => {
+    try {
+      const response = await userAPIService.post("api/requests/new", data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      if (response && response.data) {
+        return response.data;
+      } else {
+        console.log("Response or response.data is null", response);
+        return null;
+      }
+    } catch (error) {
+      console.error("API call error:", error);
+      return null;
+    }
+  };
 
   // Function to make it possible
-  const validateWithGoogle = async () => {
+  const validateAndSubmit = async (event) => {
+    // Prevents the default form submission
+    event.preventDefault();
+    setResponseMessage("checking");
+
+    // Check if file is uploaded or not
+    if (!file) {
+      setResponseMessage("No files are uploaded");
+      return;
+    }
+
     const result = await signInWithPopup(auth, googleProvider);
 
-    // If validation successfull
+    // New Form data state
+    const formData = new FormData();
+
+    // Try validating from Google
     if (result && result.user) {
-      setPayloadState({
-        name: result.user.displayName,
-        email: result.user.email,
-        avatar: result.user.photoURL,
-      });
+      formData.append("name", result.user.displayName);
+      formData.append("email", result.user.email);
+      formData.append("avatar", result.user.photoURL);
+      formData.append("userid", dashboardData.uid);
+    } else {
+      setResponseMessage("Unable to validate with google.");
+      return;
+    }
+
+    formData.append("description", description);
+    formData.append("file", file);
+
+    // Initialize an empty object
+    const requestFormData = {};
+
+    // Iterate over formData entries
+    for (let [key, value] of formData.entries()) {
+      requestFormData[key] = value;
+    }
+
+    // Making API Call
+    try {
+      // Make the API call for the payload
+      submitANewRequest(requestFormData)
+        .then((response) => {
+          if (response.status == 400) {
+            setResponseMessage(`${response.message}`);
+            setTimeout(() => {
+              window.location.reload();
+            }, 5000);
+          } else if (response.status == 202) {
+            setResponseMessage("submitted");
+            setTimeout(() => {
+              window.location.reload();
+            }, 5000);
+          } else {
+            setResponseMessage(`Server Error`);
+            setTimeout(() => {
+              window.location.reload();
+            }, 5000);
+            return;
+          }
+        })
+        .catch((error) => {
+          setResponseMessage(`Server Error.`);
+          setTimeout(() => {
+            window.location.reload();
+          }, 5000);
+          return;
+        });
+    } catch (error) {
+      setResponseMessage(`Server Error.`);
+      setTimeout(() => {
+        window.location.reload();
+      }, 5000);
+      return;
     }
   };
 
@@ -110,33 +209,21 @@ const Dashboard = (props) => {
           <div className="flex flex-col justify-center">
             <div className="text-2xl">Want you resume to get reviewed?</div>
             <form
-              action="#"
+              encType="multipart/form-data"
               className="mt-4 font-poppins text-sm font-semibold grid grid-cols-1 md:grid-cols-2 gap-5 items-center"
             >
               <div className="flex flex-col gap-2">
                 <div className="sm:col-span-2">
-                  <label htmlFor="name" className="block mb-2 text-textWhite">
-                    Product Name
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    className=" text-textWhite rounded-lg  block w-full p-2.5 bg-backgroundLight text-base"
-                    placeholder="Type product name"
-                    required=""
-                  />
-                </div>
-
-                <div className="sm:col-span-2">
                   <label
                     htmlFor="description"
-                    className="block mb-2 text-textWhite dark:text-white"
+                    className="block mb-2 text-lg text-textWhite dark:text-white"
                   >
-                    Description
+                    A message ...
                   </label>
                   <textarea
                     id="description"
+                    name="description"
+                    onChange={(e) => setDescription(e.target.value)}
                     rows="8"
                     className="block p-2.5 w-full text-textWhite  rounded-lg focus:ring-primary-500 bg-backgroundLight text-base"
                     placeholder="Your description here"
@@ -145,7 +232,7 @@ const Dashboard = (props) => {
 
                 <div>
                   <label
-                    className="block mb-2 text-gray-900 dark:text-white"
+                    className="block mb-2 text-textWhite text-lg"
                     htmlFor="user_avatar"
                   >
                     Upload file
@@ -153,22 +240,57 @@ const Dashboard = (props) => {
                   <input
                     className="block w-full bg-backgroundLight p-2.5  rounded-lg cursor-pointer "
                     aria-describedby="user_avatar_help"
-                    id="user_avatar"
+                    id="file"
                     type="file"
+                    onChange={(e) => setFile(e.target.files[0])}
                   />
                 </div>
               </div>
-              <button className="bg-backgroundLight w-full mt-5 rounded-lg flex flex-row justify-center gap-2 items-center p-2 h-fit font-quantico font-normal">
-                <div className="w-[50px] bg-backgroundLight rounded-full">
-                  <Lottie animationData={GoogleLogoAnimation} />
-                </div>
-                <div className="text-textWhite text-lg font-semibold">
-                  <h1>
-                    Validate with
-                    <span className="text-textLight "> Google </span> and
-                    Submit.
-                  </h1>
-                </div>
+              <button
+                type="button"
+                className="bg-backgroundLight w-full mt-5 rounded-lg flex flex-row justify-center gap-2 items-center p-2 h-fit font-quantico font-normal"
+                onClick={validateAndSubmit}
+              >
+                {responseMessage === "nothing" ? (
+                  <>
+                    <div className="w-[50px] bg-backgroundLight rounded-full">
+                      <Lottie animationData={GoogleLogoAnimation} />
+                    </div>
+                    <div className="text-textWhite text-lg font-semibold">
+                      <h1>
+                        Validate with
+                        <span className="text-textLight "> Google </span> and
+                        Submit.
+                      </h1>
+                    </div>
+                  </>
+                ) : responseMessage == "checking" ? (
+                  <>
+                    <div className="w-[50px] bg-backgroundLight rounded-full">
+                      <Lottie animationData={GooglePendingAnimation} />
+                    </div>
+                    <div className="text-textWhite font-quantico text-lg font-semibold">
+                      <h1>
+                        Validating <span className="text-textLight">...</span>
+                      </h1>
+                    </div>
+                  </>
+                ) : responseMessage == "submitted" ? (
+                  <>
+                    <div className="w-[50px] bg-backgroundLight rounded-full">
+                      <Lottie animationData={GooglePendingAnimation} />
+                    </div>
+                    <div className="text-textWhite font-quantico text-lg font-semibold">
+                      <h1>Submitted !</h1>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="text-textWhite font-quantico text-lg font-semibold">
+                      <h1>{responseMessage}</h1>
+                    </div>
+                  </>
+                )}
               </button>
             </form>
           </div>
