@@ -113,7 +113,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class UserDashboardSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
-        exclude = ["uid", "id"]
+        exclude = ["id"]
 
 
 """User Profile - Update (PATCH Method)"""

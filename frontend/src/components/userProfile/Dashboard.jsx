@@ -1,13 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { BsLinkedin, BsGithub } from "react-icons/bs";
 import StatisticsCard from "../StatisticsCard";
 import GooglePendingAnimation from "../../assets/animation/GooglePendingAnimation.json";
 import GoogleLogoAnimation from "../../assets/animation/GoogleLogoAnimation.json";
 import Lottie from "lottie-react";
+import { auth } from "../../Firebase";
+import { GoogleAuthProvider } from "firebase/auth";
 
 // React Component
 const Dashboard = (props) => {
+  // Collecting Props
   const dashboardData = props.props.data;
+
+  // New Google Provider for validation
+  const googleProvider = new GoogleAuthProvider();
+
+  // State to be used as payload for making requests
+  const [payloadState, setPayloadState] = useState({});
+
+  // Function to make it possible
+  const validateWithGoogle = async () => {
+    const result = await signInWithPopup(auth, googleProvider);
+
+    // If validation successfull
+    if (result && result.user) {
+      setPayloadState({
+        name: result.user.displayName,
+        email: result.user.email,
+        avatar: result.user.photoURL,
+      });
+    }
+  };
 
   return (
     <div className="text-white flex flex-col justify-center items-center h-fit">

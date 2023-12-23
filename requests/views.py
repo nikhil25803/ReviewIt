@@ -20,6 +20,7 @@ class RequestPostView(APIView):
     def post(self, request):
         # Getting the incoming data
         incoming_data = request.data
+
         try:
             validations = RequestPostSerializer(data=incoming_data)
             if validations.is_valid(raise_exception=True):

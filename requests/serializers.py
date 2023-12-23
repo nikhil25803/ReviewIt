@@ -4,17 +4,40 @@ from django.utils import timezone
 from datetime import timedelta
 from .models import RequestModel, ResponseModel
 import uuid
+import os
+from reviewit import settings
+from .helpers import upload_file_to_s3
 
 """Request - POST Serializer"""
 
 
 class RequestPostSerializer(serializers.Serializer):
     userid = serializers.CharField()
-    resumelink = serializers.CharField()
     email = serializers.EmailField()
     name = serializers.CharField()
     avatar = serializers.CharField()
     description = serializers.CharField(required=False)
+    file = serializers.FileField()
+
+    def validate_file(self, value):
+        """
+        Check that the file is a PDF and its size is less than 1 MB.
+        """
+        extension = os.path.splitext(value.name)[1]
+        valid_extensions = [".pdf"]
+        if not extension.lower() in valid_extensions:
+            raise serializers.ValidationError(
+                "Unsupported file extension. Only PDF files are allowed."
+            )
+
+        # Check file size
+        max_file_size = 1 * 1024 * 1024  # 1 MB
+        if value.size > max_file_size:
+            raise serializers.ValidationError(
+                "File size too large. Size should not exceed 1 MB."
+            )
+
+        return value
 
     def validate(self, data):
         # Existing validations
@@ -36,13 +59,28 @@ class RequestPostSerializer(serializers.Serializer):
         return data
 
     def create(self, validated_data):
+        # The file is automatically saved to S3 via Django Storages
+        resume = validated_data.get("file")
+        file_url = None
+        try:
+            if resume:
+                response = upload_file_to_s3(file=resume)
+                if response:
+                    file_url = response
+                else:
+                    raise serializers.ValidationError("Unable to upload file.")
+        except Exception:
+            raise serializers.ValidationError("Error while uploading file")
+
+        # Once file upload is successful and all validation are made make a new request
         new_request = RequestModel.objects.create(
             requestid=str(uuid.uuid4().hex),
             userid=validated_data["userid"],
-            resumelink=validated_data["resumelink"],
+            name=validated_data["name"],
+            resumelink=file_url,
             email=validated_data["email"],
-            description=validated_data["resumelink"]
-            if "resumelink" in validated_data.keys()
+            description=validated_data["description"]
+            if "description" in validated_data.keys()
             else None,
         )
         new_request.save()
