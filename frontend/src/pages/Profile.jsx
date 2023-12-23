@@ -87,7 +87,7 @@ const Profile = () => {
     if (userAvailable == "checking") {
       return (
         <div className="flex flex-col justify-center items-center">
-          <div className="max-w-[500px] md:max-w-[750px]">
+          <div className="max-w-[500px] h-fit">
             <Lottie animationData={SearchingProfile} loop={true} />
           </div>
           <div className="text-textWhite text-2xl px-5 py-5 font-semibold font-poppins bg-backgroundDark rounded-lg">

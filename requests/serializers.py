@@ -76,6 +76,7 @@ class RequestPostSerializer(serializers.Serializer):
         new_request = RequestModel.objects.create(
             requestid=str(uuid.uuid4().hex),
             userid=validated_data["userid"],
+            avatar=validated_data["avatar"],
             name=validated_data["name"],
             resumelink=file_url,
             email=validated_data["email"],

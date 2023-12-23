@@ -19,6 +19,7 @@ const ProfileResponse = (props) => {
               let resData = {
                 avatar: res.avatar,
                 responsemessage: res.responsemessage,
+                description: res.description,
                 email: res.email,
                 requestedat: res.requestedat,
                 resumelink: res.resumelink,

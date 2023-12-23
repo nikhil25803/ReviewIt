@@ -91,6 +91,7 @@ const Dashboard = (props) => {
     }
 
     // Making API Call
+    console.log(requestFormData);
     try {
       // Make the API call for the payload
       submitANewRequest(requestFormData)
@@ -215,7 +216,10 @@ const Dashboard = (props) => {
       <div className="bg-backgroundDark p-6 mt-10 w-full rounded-lg  font-quantico">
         <div className="grid grid-cols-1 justify-center items-center gap-10">
           <div className="flex flex-col justify-center">
-            <div className="text-2xl">Want you resume to get reviewed?</div>
+            <div className="text-2xl">
+              Want your <span className="text-textLight">resume</span> to get
+              reviewed?
+            </div>
             <form
               encType="multipart/form-data"
               className="mt-4 font-poppins text-sm font-semibold grid grid-cols-1 md:grid-cols-2 gap-5 items-center"

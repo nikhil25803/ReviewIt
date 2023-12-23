@@ -68,7 +68,7 @@ const Footer = () => {
                 placeholder="Your Message ..."
               />
             </form>
-            <button className="bg-buttons w-full font-poppins font-bold rounded-md text-backgroundDark bg-buttonPrimary  p-2 hover:bg-backgroundDark hover:text-textWhite transition  duration-300 ">
+            <button className="bg-buttons w-full text-lg font-poppins font-bold rounded-md text-backgroundDark bg-buttonPrimary  p-2 hover:bg-backgroundDark hover:text-textWhite transition  duration-300 ">
               Send
             </button>
           </div>

@@ -125,10 +125,14 @@ const ProfileEdit = (props) => {
         .then((response) => {
           if (response.status == 400) {
             setFormState("empty");
+            setTimeout(() => {
+              window.location.reload();
+            }, 3500);
           } else if (response.status == 200) {
             setFormState("success");
-            setTimeout(() => {}, 1000);
-            navigate(`/${userData.username}`);
+            setTimeout(() => {
+              window.location.reload();
+            }, 3500);
           } else {
             navigate(`/${userData.username}`);
           }
