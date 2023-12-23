@@ -21,14 +21,21 @@ const ProfileRequests = (props) => {
               description: req.description,
               email: req.email,
               requestedat: req.requestedat,
+              requestid: req.requestid,
               resumelink: req.resumelink,
               name: req.name,
             };
             return <RequestCards key={req.id} props={reqData} />;
           })
         ) : (
-          <div className="flex flex-row justify-center items-center">
-            <h1>No requests available</h1>
+          <div className="bg-backgroundLight w-full mt-5 rounded-lg flex flex-row justify-center gap-2 items-center p-2 h-fit font-quantico font-normal">
+            <div className="text-textWhite text-lg font-semibold">
+              <h1>
+                No
+                <span className="text-textLight "> request </span> data
+                available.
+              </h1>
+            </div>
           </div>
         )}
       </div>
