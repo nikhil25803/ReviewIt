@@ -27,8 +27,13 @@ const ProfileResponse = (props) => {
               return <ResponseCard key={res.id} props={resData} />;
             })
           ) : (
-            <div className="flex flex-row justify-center items-center">
-              <h1>No response available</h1>
+            <div className="bg-backgroundLight w-full mt-5 rounded-lg flex flex-row justify-center gap-2 items-center p-2 h-fit font-quantico font-normal">
+              <div className="text-textWhite text-lg font-semibold">
+                <h1>
+                  Not submitted any
+                  <span className="text-textLight "> response </span> yet.
+                </h1>
+              </div>
             </div>
           )}
         </div>

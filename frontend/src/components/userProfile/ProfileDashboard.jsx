@@ -1,9 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import { BsLinkedin, BsGithub } from "react-icons/bs";
 import StatisticsCard from "../StatisticsCard";
 const ProfileDashboard = (props) => {
   // Getting Props data
   const dashboardData = props.props;
+
+  // Some state to render
+  const [totalSubmissions, setTotalSubmissions] = useState(0);
+  const [requestPending, setRequestPending] = useState(0);
+  const [requestCompleted, setRequestCompleted] = useState(0);
+  const [totalReviews, setTotalReviews] = useState(0);
+
+  // Calculate total submission - total requests
+  useState(() => {
+    // Calculate total submissions (total requests)
+    const submissions = dashboardData.requests.length;
+    setTotalSubmissions(submissions);
+
+    // Calculate pending and completed requests
+    let pending = 0;
+    let completed = 0;
+    dashboardData.requests.forEach((request) => {
+      if (request.responded) {
+        completed++;
+      } else {
+        pending++;
+      }
+    });
+    setRequestPending(pending);
+    setRequestCompleted(completed);
+
+    // Calculate total reviews
+    const reviews = dashboardData.response.length;
+    setTotalReviews(reviews);
+  }, []);
+
+  console.log(totalSubmissions, requestPending, requestCompleted, totalReviews);
 
   return (
     <div className="text-white flex flex-col justify-center items-center h-fit mt-10">
@@ -73,16 +105,25 @@ const ProfileDashboard = (props) => {
         </div>
         <div className="bg-backgroundLight grid grid-cols-1 md:grid-cols-2 gap-4 p-4 rounded-lg text-2xl font-quantico text-textWhite ">
           <div>
-            <StatisticsCard number={100} title={"Total Submissions"} />
+            <StatisticsCard
+              number={totalSubmissions}
+              title={"Total Submissions"}
+            />
           </div>
           <div>
-            <StatisticsCard number={100} title={"Requests Pending"} />
+            <StatisticsCard
+              number={requestPending}
+              title={"Requests Pending"}
+            />
           </div>
           <div>
-            <StatisticsCard number={100} title={"Request Completed"} />
+            <StatisticsCard
+              number={requestCompleted}
+              title={"Request Completed"}
+            />
           </div>
           <div>
-            <StatisticsCard number={100} title={"Total Reviews"} />
+            <StatisticsCard number={totalReviews} title={"Total Reviews"} />
           </div>
         </div>
       </div>
