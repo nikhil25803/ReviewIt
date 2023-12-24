@@ -15,21 +15,21 @@ const Details = () => {
           <DetailCard
             title={"Authenticate"}
             text={
-              "Securely connect via Google or Github to establish your profile. This unified profile ensures a seamless experience, serving you both in resume review and mentorship request scenarios."
+              "Begin by signing in securely with Google, creating a unified profile for a streamlined experience, whether you're seeking mentorship or offering guidance."
             }
             icons={<FaUserCheck />}
           />
           <DetailCard
             title={"Upload"}
             text={
-              "Effortlessly upload up to three resumes, each with distinct aliases (e.g., SDE, ML). When requesting a review, select the relevant resume, tailoring your approach to diverse opportunities."
+              "You can request mentorship once every seven days for a specific mentor. This approach ensures quality interactions and focused guidance tailored to your professional development."
             }
             icons={<MdDocumentScanner />}
           />
           <DetailCard
             title={"Request"}
             text={
-              "Initiate mentorship by sending personalized requests to global mentors. Choose from your uploaded resumes and include a message detailing your job requirements or specific career aspirations."
+              "Send personalized mentorship requests to our global network of mentors by uploaded your desired resumes to get reviewed and articulate your career goals or specific job aspirations in your message."
             }
             icons={<FaUsersViewfinder />}
           />

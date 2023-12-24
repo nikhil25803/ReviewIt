@@ -7,7 +7,7 @@ const DetailCard = ({ title, text, icons }) => {
       <h1 className="text-xl md:text-2xl text-textLight font-quantico">
         {title}
       </h1>
-      <p className=" bg-backgroundDark rounded-xl text-base md:text-lg p-5 text-center font-poppins">
+      <p className=" bg-backgroundDark rounded-xl text-base md:text-lg p-5 text-center font-poppins h-full">
         {text}
       </p>
     </div>

@@ -45,7 +45,7 @@ class RequestPostSerializer(serializers.Serializer):
             raise serializers.ValidationError("User with given User ID does not exist.")
 
         # Validate email for requests in the last 15 days
-        fifteen_days_ago = timezone.now() - timedelta(days=15)
+        fifteen_days_ago = timezone.now() - timedelta(days=7)
         recent_requests = RequestModel.objects.filter(
             email=data.get("email"),
             userid=data.get("userid"),

@@ -85,7 +85,7 @@ def send_email_function(data: dict, purpose: str) -> bool:
         max-width: 500px;
         margin: 0 auto;
         background-color: #111827;
-        color: #ffffff;
+        color: white;;
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
@@ -94,7 +94,7 @@ def send_email_function(data: dict, purpose: str) -> bool:
       <div style="text-align: center; padding-bottom: 20px">
         <h1>Welcome to <span style="color: #eab308">Review It!</span></h1>
       </div>
-      <div style="line-height: 1.6; color: #ffffff">
+      <div style="line-height: 1.6; color: white;">
         <p>Hello <span style="color: #eab308">{data["name"]}</span></p>
         <p>
           On <span style="color: #eab308">Review It!</span>, users connect with
@@ -112,7 +112,7 @@ def send_email_function(data: dict, purpose: str) -> bool:
           If you have any questions, feel free to
           <a
             href="mailto:nikofficial25@gmail.com"
-            style="cursor: pointer; color: #ffffff"
+            style="cursor: pointer; color: white;"
             >Contact us</a
           >.
         </p>
@@ -129,7 +129,7 @@ def send_email_function(data: dict, purpose: str) -> bool:
               ><a
                 href="https://www.linkedin.com/in/nikhil25803/"
                 target="_blank"
-                style="cursor: pointer; color: #ffffff"
+                style="cursor: pointer; color: white;"
                 >LinkedIn</a
               ></strong
             >
@@ -138,7 +138,7 @@ def send_email_function(data: dict, purpose: str) -> bool:
               ><a
                 href="https://github.com/nikhil25803"
                 target="_blank"
-                style="cursor: pointer; color: #ffffff"
+                style="cursor: pointer; color: white;"
                 >GitHub</a
               ></strong
             >
@@ -147,7 +147,7 @@ def send_email_function(data: dict, purpose: str) -> bool:
               ><a
                 href="https://twitter.com/humans_write"
                 target="_blank"
-                style="cursor: pointer; color: #ffffff"
+                style="cursor: pointer; color: white;"
                 >Twitter</a
               ></strong
             >
@@ -203,7 +203,7 @@ def send_email_function(data: dict, purpose: str) -> bool:
         max-width: 500px;
         margin: 0 auto;
         background-color: #111827;
-        color: #ffffff;
+        color: white;;
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
@@ -212,7 +212,7 @@ def send_email_function(data: dict, purpose: str) -> bool:
       <div style="text-align: center; padding-bottom: 20px">
         <h1>Received a new<span style="color: #eab308"> Request!</span></h1>
       </div>
-      <div style="line-height: 1.6; color: #ffffff">
+      <div style="line-height: 1.6; color: white;">
         <p>Hello {data["mentor_username"]}</p>
         <p>
           Looks like you got a one more resume to review, spare some time to
@@ -229,7 +229,7 @@ def send_email_function(data: dict, purpose: str) -> bool:
           If you have any questions, feel free to
           <a
             href="mailto:nikofficial25@gmail.com"
-            style="cursor: pointer; color: #ffffff"
+            style="cursor: pointer; color: white;"
             >Contact us</a
           >.
         </p>
@@ -246,7 +246,7 @@ def send_email_function(data: dict, purpose: str) -> bool:
               ><a
                 href="https://www.linkedin.com/in/nikhil25803/"
                 target="_blank"
-                style="cursor: pointer; color: #ffffff"
+                style="cursor: pointer; color: white;"
                 >LinkedIn</a
               ></strong
             >
@@ -255,7 +255,7 @@ def send_email_function(data: dict, purpose: str) -> bool:
               ><a
                 href="https://github.com/nikhil25803"
                 target="_blank"
-                style="cursor: pointer; color: #ffffff"
+                style="cursor: pointer; color: white;"
                 >GitHub</a
               ></strong
             >
@@ -264,7 +264,7 @@ def send_email_function(data: dict, purpose: str) -> bool:
               ><a
                 href="https://twitter.com/humans_write"
                 target="_blank"
-                style="cursor: pointer; color: #ffffff"
+                style="cursor: pointer; color: white;"
                 >Twitter</a
               ></strong
             >
@@ -318,7 +318,7 @@ def send_email_function(data: dict, purpose: str) -> bool:
         max-width: 500px;
         margin: 0 auto;
         background-color: #111827;
-        color: #ffffff;
+        color: white;;
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
@@ -327,7 +327,7 @@ def send_email_function(data: dict, purpose: str) -> bool:
       <div style="text-align: center; padding-bottom: 20px">
         <h1>New <span style="color: #eab308"> Response!</span></h1>
       </div>
-      <div style="line-height: 1.6; color: #ffffff">
+      <div style="line-height: 1.6; color: white;">
         <p>Hello {data["name"]}</p>
         <p>
           Looks like you received a review on your <a href="{data["resume"]}" target="_blank">Resume</a>. Let's see what they think about it.
@@ -344,7 +344,7 @@ def send_email_function(data: dict, purpose: str) -> bool:
           If you have any questions, feel free to
           <a
             href="mailto:nikofficial25@gmail.com"
-            style="cursor: pointer; color: #ffffff"
+            style="cursor: pointer; color: white;"
             >Contact us</a
           >.
         </p>
@@ -361,7 +361,7 @@ def send_email_function(data: dict, purpose: str) -> bool:
               ><a
                 href="https://www.linkedin.com/in/nikhil25803/"
                 target="_blank"
-                style="cursor: pointer; color: #ffffff"
+                style="cursor: pointer; color: white;"
                 >LinkedIn</a
               ></strong
             >
@@ -370,7 +370,7 @@ def send_email_function(data: dict, purpose: str) -> bool:
               ><a
                 href="https://github.com/nikhil25803"
                 target="_blank"
-                style="cursor: pointer; color: #ffffff"
+                style="cursor: pointer; color: white;"
                 >GitHub</a
               ></strong
             >
@@ -379,7 +379,7 @@ def send_email_function(data: dict, purpose: str) -> bool:
               ><a
                 href="https://twitter.com/humans_write"
                 target="_blank"
-                style="cursor: pointer; color: #ffffff"
+                style="cursor: pointer; color: white;"
                 >Twitter</a
               ></strong
             >
