@@ -16,7 +16,7 @@ const RequestCards = (props) => {
 
   return (
     <Fragment>
-      <div className="bg-backgroundLight p-4 font-poppins rounded-lg flex items-center justify-start w-full">
+      <div className="bg-backgroundLight p-4  font-poppins rounded-lg w-full">
         <div className="flex flex-col gap-5 mx-0">
           <div className="flex flex-col gap-4">
             <div className="flex flex-row gap-4 justify-start items-center">
@@ -44,13 +44,16 @@ const RequestCards = (props) => {
                 </a>
               </div>
             </div>
-            <div className="break-words overflow-hidden">
+            <div className="break-words overflow-hidden h-fit md:h-[35vh]">
+              <div className="font-quantico text-lg md:text-xl text-textLight">
+                Message{" "}
+              </div>
               <div>{requestCardData.description}</div>
             </div>
           </div>
           <div className="">
             <button
-              className="flex flex-row justify-center items-center text-l font-quantico gap-5 bg-backgroundDark p-4 rounded-lg hover:scale-105 duration-300"
+              className="flex flex-row justify-center items-center text-l font-quantico gap-5 bg-backgroundDark p-4 rounded-lg hover:scale-105 duration-300 "
               onClick={() => setModalState(true)}
             >
               Submit a Review{" "}

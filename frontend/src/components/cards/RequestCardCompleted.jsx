@@ -29,7 +29,14 @@ const RequestCardAll = (props) => {
             </div>
           </div>
           <div className="break-words overflow-hidden">
-            <div>{requestCardData.description}</div>
+            <div className="font-quantico text-lg md:text-xl text-textLight">
+              Message{" "}
+            </div>
+            <div>
+              {requestCardData.description
+                ? requestCardData.description
+                : "No message/description provided"}
+            </div>
           </div>
         </div>
       </div>

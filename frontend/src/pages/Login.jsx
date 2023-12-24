@@ -10,6 +10,8 @@ const Login = () => {
   const { handleLoginWithGoogle, status } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  const [loginPending, setLoginPending] = useState(false);
+
   useEffect(() => {
     if (status === "authenticated") {
       navigate("/");
@@ -17,7 +19,9 @@ const Login = () => {
   }, [status]);
 
   const userLogin = async () => {
+    setLoginPending(true);
     await handleLoginWithGoogle();
+    setLoginPending(false);
     navigate("/");
   };
 
@@ -27,7 +31,7 @@ const Login = () => {
         <div className="">
           <Lottie animationData={LoginAnimation} loop={true} />
         </div>
-        {status == "not-authenticated" ? (
+        {loginPending == false ? (
           <button
             className="bg-backgroundDark rounded-lg flex flex-row justify-center gap-2 items-center p-5"
             onClick={userLogin}

@@ -123,6 +123,7 @@ const ProfileEdit = (props) => {
       // Make the API call for the payload
       updateUserData(payload, sessionPayload)
         .then((response) => {
+          console.log(response);
           if (response.status == 400) {
             setFormState("empty");
             setTimeout(() => {
