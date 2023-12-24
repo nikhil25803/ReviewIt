@@ -46,7 +46,7 @@ const Statistics = () => {
         setStats(response.data);
       }
     } catch (error) {
-      console.error("Failed to fetch stats:", error);
+      throw new Error(error);
     }
   };
 

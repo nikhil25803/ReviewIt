@@ -12,7 +12,7 @@ const RequestCardAll = (props) => {
               alt="image"
               className="rounded-full"
             />
-            <div className="flex flex-col justify-center items-start">
+            <div className="flex flex-col justify-center items-start overflow-hidden">
               <h1 className="font-quantico text-xl">
                 {requestCardData.name ? requestCardData.name : "Anonymus"}
               </h1>

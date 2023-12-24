@@ -3,7 +3,9 @@ from django.http import JsonResponse
 from rest_framework.views import APIView
 from .serializers import RequestPostSerializer, ResponsePostSerializer
 from rest_framework import status
-from users.helpers import decode
+from users.helpers import decode, send_email_function
+from users.models import UserModel
+from .models import RequestModel
 
 """Request Service Ping Test"""
 
@@ -25,6 +27,24 @@ class RequestPostView(APIView):
             validations = RequestPostSerializer(data=incoming_data)
             if validations.is_valid(raise_exception=True):
                 validations.save()
+                try:
+                    # Get iser data
+                    mentor_data = UserModel.objects.filter(
+                        uid=incoming_data["userid"]
+                    ).values()[0]
+                    response = send_email_function(
+                        data={
+                            "subject": "Review It : New request received!",
+                            "to": mentor_data["email"],
+                            "mentor_username": mentor_data["name"],
+                            "name": incoming_data["name"],
+                            "email": incoming_data["email"],
+                            "message": incoming_data["description"],
+                        },
+                        purpose="request",
+                    )
+                except Exception:
+                    pass
                 return JsonResponse(
                     data={
                         "status": status.HTTP_202_ACCEPTED,
@@ -85,6 +105,30 @@ class ResponsePostView(APIView):
                 validations = ResponsePostSerializer(data=incoming_data)
                 if validations.is_valid(raise_exception=True):
                     validations.save()
+                    try:
+                        # Fetching request data
+                        request_data = RequestModel.objects.filter(
+                            requestid=incoming_data["requestid"]
+                        ).values()[0]
+
+                        # Fetching mentor data
+                        mentor_data = UserModel.objects.filter(
+                            uid=incoming_data["fromuserid"]
+                        ).values()[0]
+                        response = send_email_function(
+                            data={
+                                "subject": "Review It : New response received!",
+                                "to": request_data["email"],
+                                "name": request_data["name"],
+                                "mentor_name": mentor_data["name"],
+                                "mentor_email": mentor_data["email"],
+                                "review": incoming_data["responsemessage"],
+                                "resume": request_data["resumelink"],
+                            },
+                            purpose="response",
+                        )
+                    except Exception:
+                        pass
                     return JsonResponse(
                         data={
                             "status": status.HTTP_202_ACCEPTED,

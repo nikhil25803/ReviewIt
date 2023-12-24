@@ -25,6 +25,7 @@ const RequestCards = (props) => {
                 alt="image"
                 className="rounded-full"
               />
+
               <div className="flex flex-col justify-center items-start break-words overflow-hidden">
                 <h1 className="font-quantico text-xl ">
                   {requestCardData.name ? requestCardData.name : "Anonymus"}

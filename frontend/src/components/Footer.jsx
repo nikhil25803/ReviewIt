@@ -1,6 +1,87 @@
+import { useEffect, useState } from "react";
 import { BsLinkedin, BsGithub, BsTwitter } from "react-icons/bs";
+import { userAPIService } from "../apis/UserAPI";
 
 const Footer = () => {
+  // State to store feedback
+  const [email, setEmail] = useState("");
+  const [feedback, setFeedback] = useState("");
+  const [formStatus, setFormStatus] = useState("nothing");
+
+  useEffect(() => {
+    setEmail("");
+    setFeedback("");
+    setFormStatus("nothing");
+  }, []);
+
+  // API Call to submit new feedback
+  const submitNewFeedback = async (data) => {
+    try {
+      const response = await userAPIService.post("api/user/feedback", data);
+      if (response && response.data) {
+        return response.data;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      return null;
+    }
+  };
+
+  // Function to make it possible
+  const validateAndSubmit = async (event) => {
+    event.preventDefault();
+    setFormStatus("Submitting");
+
+    if (email === "" || feedback === "") {
+      setFormStatus("Both Email/Feedback are required!");
+      return;
+    }
+
+    const payload = {
+      email: email,
+      feedback: feedback,
+    };
+
+    // Making API Call
+    try {
+      // Make the API call for the payload
+      submitNewFeedback(payload)
+        .then((response) => {
+          if (response.status == 400) {
+            setFormStatus(`${response.message}`);
+            setTimeout(() => {
+              window.location.reload();
+            }, 3500);
+          } else if (response.status == 200) {
+            setFormStatus(`${response.message}`);
+
+            setTimeout(() => {
+              window.location.reload();
+            }, 3500);
+          } else {
+            setFormStatus(`Server Error`);
+            setTimeout(() => {
+              window.location.reload();
+            }, 3500);
+            return;
+          }
+        })
+        .catch((error) => {
+          setFormStatus(`Server Error.`);
+          setTimeout(() => {
+            window.location.reload();
+          }, 3500);
+          return;
+        });
+    } catch (error) {
+      setFormStatus(`Server Error.`);
+      setTimeout(() => {
+        window.location.reload();
+      }, 3500);
+      return;
+    }
+  };
   return (
     <footer className="w-full bg-backgroundDark">
       <div className="max-w-[1280px] mx-auto flex flex-row justify-between items-center p-4 py-10">
@@ -60,17 +141,33 @@ const Footer = () => {
               <input
                 className="shadow  bg-backgroundLight rounded w-full py-2 px-3 text-textWhite leading-tight focus:outline-none focus:shadow-outline font-poppins"
                 type="email"
+                name="email"
                 placeholder="Your Email ..."
+                onChange={(e) => setEmail(e.target.value)}
               />
               <textarea
                 type="text"
-                className="shadow bg-backgroundLight rounded w-full px-3 py-10 text-textWhite leading-tight focus:outline-none focus:shadow-outline font-poppins"
+                className="shadow bg-backgroundLight rounded w-full px-3 py-10 text-textWhite leading-tight focus:outline-none focus:shadow-outline font-poppins mb-5"
                 placeholder="Your Message ..."
+                name="feedback"
+                onChange={(e) => setFeedback(e.target.value)}
               />
+              {formStatus == "nothing" ? (
+                <button
+                  className="bg-buttons w-full font-poppins font-bold rounded-md text-backgroundDark bg-buttonPrimary  p-2 hover:bg-backgroundDark hover:text-textWhite transition  duration-300 "
+                  onClick={validateAndSubmit}
+                >
+                  Send
+                </button>
+              ) : (
+                <button
+                  className="bg-buttons w-full font-poppins font-bold rounded-md text-backgroundDark bg-buttonPrimary  p-2 hover:bg-backgroundDark hover:text-textWhite transition  duration-300 "
+                  onClick={validateAndSubmit}
+                >
+                  {formStatus}
+                </button>
+              )}
             </form>
-            <button className="bg-buttons w-full text-lg font-poppins font-bold rounded-md text-backgroundDark bg-buttonPrimary  p-2 hover:bg-backgroundDark hover:text-textWhite transition  duration-300 ">
-              Send
-            </button>
           </div>
         </div>
       </div>

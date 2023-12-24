@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import UserModel
 from requests.models import RequestModel, ResponseModel
+from .helpers import send_email_function
 
 """User Registration Serializer"""
 
@@ -46,6 +47,7 @@ class UserRegistrationSerializer(serializers.Serializer):
         )
 
         new_user.save()
+
         return new_user
 
 
@@ -55,7 +57,7 @@ class UserRegistrationSerializer(serializers.Serializer):
 class UserLoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
-        fields = ["uid", "username"]
+        fields = ["uid", "username", "email"]
 
 
 """
