@@ -82,35 +82,35 @@ const ResponseModal = (props) => {
             setReviewStatus(`${response.message}`);
             setTimeout(() => {
               window.location.reload();
-            }, 5000);
+            }, 3500);
           } else if (response.status == 202) {
             setReviewStatus(`${response.message}`);
             setTimeout(() => {
               window.location.reload();
-            }, 5000);
+            }, 3500);
           } else {
             setReviewStatus("Server Error");
             setTimeout(() => {
               window.location.reload();
-            }, 5000);
+            }, 3500);
           }
         })
         .catch((error) => {
           setReviewStatus("Server Error");
           setTimeout(() => {
             window.location.reload();
-          }, 5000);
+          }, 3500);
         });
     } catch (error) {
       setReviewStatus("Server Error");
       setTimeout(() => {
         window.location.reload();
-      }, 5000);
+      }, 3500);
     }
   };
   return (
     <div className="fixed inset-0 text-textWhite bg-backgroundDark bg-opacity-50 backdrop-blur flex justify-center  p-4 font-poppins">
-      <div className="max-w-[1280px] mx-auto flex flex-col">
+      <div className="w-screen  mx-auto flex flex-col">
         <button
           className="text-2xl p-4 bg-backgroundLight rounded-full mb-5 font-bold font-quantico text-textLight place-self-end"
           onClick={() => modalData.setModalStateFunction()}
@@ -126,7 +126,7 @@ const ResponseModal = (props) => {
                   alt="user-profile-picture"
                   className="rounded-lg"
                 />
-                <div className="flex flex-col p-4">
+                <div className="flex flex-col p-4 overflow-hidden">
                   <h1 className="text-2xl font-quantico">{requestData.name}</h1>
                   <p className="text-slate-400">{requestData.email}</p>
                 </div>
@@ -149,8 +149,7 @@ const ResponseModal = (props) => {
                     requestData.resumelink
                   )}&embedded=true`}
                   title="Resume"
-                  height={500}
-                  className="rounded-lg"
+                  className="rounded-lg h-96"
                 ></iframe>
               </div>
               <div className="bg-backgroundDark ">

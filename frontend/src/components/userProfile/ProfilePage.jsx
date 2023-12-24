@@ -34,7 +34,7 @@ const ProfilePage = (props) => {
   return (
     <div className="">
       <div className="bg-backgroundDark rounded-lg text-white font-quantico p-4">
-        <div className="flex flow-row  justify-evenly items-center text-lg">
+        <div className="grid grid-cols-2 md:flex md:flow-row  justify-evenly items-center text-lg">
           <button
             className={
               activePage == "dashboard"

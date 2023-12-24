@@ -264,9 +264,17 @@ class UserProfile(APIView):
                 )
                 if serialized_data.is_valid(raise_exception=True):
                     serialized_data.save()
-                    return Response(serialized_data.data, status=status.HTTP_200_OK)
-                return Response(
-                    serialized_data.errors, status=status.HTTP_400_BAD_REQUEST
+                    return JsonResponse(
+                        {
+                            "status": status.HTTP_200_OK,
+                            "message": "Profile has been updated successfully.",
+                        }
+                    )
+                return JsonResponse(
+                    {
+                        "status": status.HTTP_400_BAD_REQUEST,
+                        "message": "Bad Request.",
+                    }
                 )
         return JsonResponse(
             {

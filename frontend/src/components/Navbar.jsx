@@ -14,7 +14,7 @@ const Navbar = () => {
     if (sessionObject) {
       setUsername(sessionObject.username);
     }
-  }, []);
+  }, [status]);
   return (
     <nav className="w-full bg-backgroundDark">
       <div className="max-w-[1280px] mx-auto flex flex-row justify-between  items-center p-4">
