@@ -35,8 +35,6 @@ const ProfileDashboard = (props) => {
     setTotalReviews(reviews);
   }, []);
 
-  console.log(totalSubmissions, requestPending, requestCompleted, totalReviews);
-
   return (
     <div className="text-white flex flex-col justify-center items-center h-fit mt-10">
       <div className="bg-backgroundDark p-4 w-full mx-auto rounded-lg grid grid-cols-1 md:grid-cols-2 gap-4 justify-between items-start md:items-center ">

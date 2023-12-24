@@ -14,6 +14,9 @@ from rest_framework import status
 from .helpers import encode, decode
 from .models import UserModel
 from requests.models import RequestModel, ResponseModel
+from .helpers import send_email_function
+from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
 
 """User API Ping Test"""
 
@@ -80,6 +83,18 @@ class UserAuthentication(APIView):
                 user_object = UserModel.objects.filter(uid=incoming_data["uid"]).first()
                 serialied_data = UserLoginSerializer(user_object)
                 encoded_data = encode(payload_data=serialied_data.data)
+                # Send welcome email
+                try:
+                    response = send_email_function(
+                        data={
+                            "subject": "Welcome to Review It",
+                            "name": serialied_data.data["username"],
+                            "to": serialied_data.data["email"],
+                        },
+                        purpose="welcome",
+                    )
+                except Exception:
+                    pass
                 return JsonResponse(
                     data={
                         "token": encoded_data,
@@ -257,5 +272,38 @@ class UserProfile(APIView):
             {
                 "status": status.HTTP_400_BAD_REQUEST,
                 "message": "You are not authorized to make this request",
+            }
+        )
+
+
+"""Submit Feedback Endpoint"""
+
+
+@api_view(http_method_names=["POST"])
+def submit_feedback(request):
+    body_data = request.data
+
+    try:
+        response = send_email_function(
+            data={
+                "subject": "Review It: Feedback",
+                "to": "nikhil25803@gmail.com",
+                "email": body_data["email"],
+                "feedback": body_data["feedback"],
+            },
+            purpose="feedback",
+        )
+
+        return JsonResponse(
+            data={
+                "status": status.HTTP_200_OK,
+                "message": "Successfully submitted the feedback!",
+            }
+        )
+    except Exception:
+        return JsonResponse(
+            data={
+                "status": status.HTTP_400_BAD_REQUEST,
+                "message": "Unable to submit feedback!",
             }
         )

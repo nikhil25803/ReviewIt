@@ -13,7 +13,7 @@ const ResponseCard = (props) => {
               src={responseCardData.avatar ? responseCardData.avatar : "#"}
               alt="image"
             />
-            <div className="flex flex-col justify-center items-start">
+            <div className="flex flex-col justify-center items-start break-words overflow-hidden overflow-ellipsis">
               <h1 className="font-quantico text-xl">
                 {responseCardData.name ? responseCardData.name : "Anonymus"}
               </h1>

@@ -73,8 +73,6 @@ const ResponseModal = (props) => {
       responsemessage: review,
     };
 
-    console.log(payloadData);
-
     // Make an API call passing the payload data
     try {
       // Make the API call for the payload

@@ -16,7 +16,7 @@ const RequestCards = (props) => {
 
   return (
     <Fragment>
-      <div className="bg-backgroundLight p-4 mx-auto font-poppins rounded-lg flex ">
+      <div className="bg-backgroundLight p-4 mx-auto font-poppins rounded-lg flex w-full">
         <div className="flex flex-col gap-5 justify-between items-center">
           <div className="flex flex-col gap-4">
             <div className="flex flex-row gap-4 justify-start items-center">
@@ -25,7 +25,7 @@ const RequestCards = (props) => {
                 alt="image"
                 className="rounded-lg"
               />
-              <div className="flex flex-col justify-center items-start">
+              <div className="flex flex-col justify-center items-start overflow-hidden">
                 <h1 className="font-quantico text-xl">
                   {requestCardData.name ? requestCardData.name : "Anonymus"}
                 </h1>
