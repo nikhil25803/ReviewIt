@@ -12,11 +12,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# SECURITY WARNING: don't run with debug turned on in production! RENDER_HOST
 DEBUG = True
 ALLOWED_HOSTS = [
     str(os.getenv("ALLOWED_HOST_1")),
     str(os.getenv("ALLOWED_HOST_2")),
+    str(os.getenv("RENDER_HOST")),
 ]
 
 
@@ -116,6 +117,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ALLOWED_ORIGINS = [
     str(os.getenv("ALLOWED_HOST_1")),
+    str(os.getenv("ALLOWED_HOST_2")),
+    str(os.getenv("RENDER_HOST")),
 ]
 
 CORS_ALLOW_HEADERS = [
