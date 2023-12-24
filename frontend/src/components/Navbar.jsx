@@ -34,7 +34,7 @@ const Navbar = () => {
             <div className="flex flex-row gap-5">
               <Link
                 className="flex flex-row justify-center  items-center text-backgroundDark bg-buttonPrimary rounded-lg  px-3 py-3 my-4 gap-4 hover:bg-backgroundDark hover:text-textWhite transition  duration-300"
-                to={`/${userName}`}
+                to={`/user/${userName}`}
               >
                 <div className="text-lg font-semibold font-poppins hidden md:block">
                   Profile
@@ -58,7 +58,7 @@ const Navbar = () => {
           ) : (
             <Link
               className="flex flex-row justify-center  items-center text-backgroundDark bg-buttonPrimary rounded-lg px-3 py-3 my-4 gap-4 hover:bg-backgroundDark hover:text-textWhite transition  duration-300"
-              to="/login"
+              to="/auth/login"
             >
               <div className="text-lg font-semibold font-poppins hidden md:block">
                 Login
