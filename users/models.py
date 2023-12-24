@@ -11,7 +11,7 @@ class UserModel(models.Model):
     name = models.CharField(max_length=100)
     avatar = models.CharField(max_length=250, null=True)
     bio = models.CharField(max_length=2100, null=True)
-    about = models.CharField(max_length=1000, null=True)
+    about = models.CharField(max_length=10000, null=True)
     linkedin = models.CharField(max_length=100, null=True)
     github = models.CharField(max_length=100, null=True)
 
