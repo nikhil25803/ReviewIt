@@ -13,7 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production! RENDER_HOST
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = [
     str(os.getenv("ALLOWED_HOST_1")),
     str(os.getenv("ALLOWED_HOST_2")),
