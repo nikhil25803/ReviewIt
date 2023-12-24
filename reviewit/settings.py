@@ -18,6 +18,7 @@ ALLOWED_HOSTS = [
     str(os.getenv("ALLOWED_HOST_1")),
     str(os.getenv("ALLOWED_HOST_2")),
     str(os.getenv("RENDER_HOST")),
+    str(os.getenv("PRODUCTION")),
 ]
 
 
@@ -119,6 +120,7 @@ CORS_ALLOWED_ORIGINS = [
     str(os.getenv("ALLOWED_HOST_1")),
     str(os.getenv("ALLOWED_HOST_2")),
     str(os.getenv("RENDER_HOST")),
+    str(os.getenv("PRODUCTION")),
 ]
 
 CORS_ALLOW_HEADERS = [
