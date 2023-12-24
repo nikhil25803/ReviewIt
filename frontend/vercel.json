@@ -1,8 +1,12 @@
 {
-    "rewrites": [
+    "routes": [
         {
-            "source":"/(*)",
-            "destination": "/"
+            "src": "/login",
+            "dest": "/login"
+        },
+        {
+            "src": "/:username",
+            "dest": "/:username"
         }
     ]
 }
